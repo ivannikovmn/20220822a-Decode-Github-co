@@ -1,12 +1,130 @@
+<!-- Рабочий вариант 1
+//////////////////
+//https://git-scm.com/download/win (git просит visual studio code)
+//visual studio code уже стоял (дублирует ф-ции desktop.github, возможны конфликты)
+Создаем репозиторий github-for-beginners на github.com
+https://www.toptal.com/developers/gitignore/ //можно создать список который хочется чтобы игноировался
+https://desktop.github.com/ //скачиваем, устанавливаем
+В desktop.github делаем clone a repository выбирая на  github.com и указывая локальную папку
+каждые изм-ия commit(указывается там что добавили) и потом fetch origin делать (заливать на github.com)
+branch > create pull request объединить можно изменнения в разных branch
+
+Рабочий вариант 2
+//////////////////
+// Через GitHub terminal (дубль 2)
+https://www.youtube.com/watch?v=fYFiQ7lpfiE
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+//
+ssh-keygen -t ed25519 -C "local_host@mail.ru" // все команды тут и ниже писать после $. генерация ключей, для устаревшей системы не поддерживаемой ed25519 использовать следующую команду: $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+eval "$(ssh-agent -s)"  // ввод в git bash как в агент, в ответ будет написано что-то вроде Agent pid 540
+ssh-add ~/.ssh/id_ed25519 // добавить ключ в агент
+clip < ~/.ssh/id_ed25519.pub // копирование ключа в буфер обмена
+github.com > Settings >  SSH and GPG keys > New SSH key or Add SSH key
+https://github.com/localhost2030/github-for-beginners > code > clone > ssh > git@github.com:localhost2030/github-for-beginners.git Затеме команда ниже
+git clone git@github.com:localhost2030/github-for-beginners.git
+cd github-for-beginners
+https://atom.io/ - предлагает использщовать (github в июне 2022 заявили правда что больше не поддерживают), установка
+atom . //не работает команда, может то что win а может поддержки нет уже. В приложении залогился
+git status // проверка статуса модификация, добавления
+git add . //доб-ть все файлы которые были изменены
+git commit -m "Изменили фон на белый" //-m нет меседжа, написано на русском, но как правило пишут на английском
+git push // залить на github.com
+git checkout -b bg-pink //создать ветку bg-pink и переключиться на нее
+git branch //посмотреть ветки
+git checkout main // переключиться на main
+git checkout bg-pink
+в css меняем на розовый
+git status
+git add .
+git status
+git commit -m "Изменили фон на розовый"
+git push --set-upstream origin bg-pink // создание новой ветки brunch на github.com
+git checkout main // переключиться на main (в видео master)
+github.com / Pull requests / compare & pull request / create Pull requests / merge pull request / Pull request successfully merged and closed
+git checkout main
+git pull //доб-ть изменения в локальный репозиторий чтобы изменения с merge pull request применились
+git branch -D bg-pink // удаление ветки, команда git branch --delete bg-pink не сработала
+git branch
+-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width initial=scale=1.0">
-    <title>Documents</title>  
+    <title>Documents</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body>   
+  <body>
   <h1>Заголовок</h1>
   </body>
 </html>
+
+<!--
+Для истории (не заработало до конца, вверху то что работало)
+https://www.youtube.com/watch?v=zZBiln_2FhM
+//////////////////
+// Git (работа в локальной системе):
+https://git-scm.com/download/win
+В Git cmd:
+git --version
+git --help
+# Visual Studio Code
+# cls dir cd
+git init //про инициализация репозитория (находясь в папке с проектом)
+git status
+<папка с проектом>\.git //настройки тут лежат
+git add index.html //следить за файлом
+git add . //следить за папкой. Если инфо изм-ено, то нужно заново
+git rm --cached index.html //удалить слежение
+git commit -m "first commit"//-m нет меседжа. Необходимо, чтобы в настройках логин и пароль был
+//git commit если будет ошибка авторизации, то как можно зарегить в двух командах ниже
+git config --global user.email "local_host@mail.ru"
+git config --global user.name "localhost2030"
+echo errors.txt > .gitignore //создание файла .gitignore с текстом errors.txt . gitignore также нужно добавлять в репозиторий
+git branch //посмотреть ветки
+git branch test //cоздать ветку test (как вариант readme)
+git branch -D test //удалить ветку test
+git checkout readme //переключиться на ветку readme (или master)
+git checkout -b new //создать ветку new и переключиться на нее
+git merge readme //совместить ветку readme с мастер
+git config --global user.name //текущий - user
+git config --global user.name "Mikhail Ivannikov" //изменения на Mikhail Ivannikov
+git config --global user.email "local_host@mail.ru"
+//////////////////
+// GitHub (работа в удаленной системе) (аналог битбакет):
+https://github.com/
+git remote add origin https://github.com/localhost2030/git-course.git //пример привязки в GitHub, не получаеться, нужно устанавливать SSH ключи или подобное
+//////////////////
+https://www.youtube.com/watch?v=NkH_7Vrw8AU
+https://only-to-top.ru/blog/tools/2019-12-08-git-ssh-windows.html
+создание SSH ключей
+Git Batch
+ssh-keygen -t rsa -b 4096 -C "local_host@mail.ru"
+eval `ssh-agent -s` //запуск ssh-агента
+ssh-add id_rsa //перейти с cd-dir в папку где ключи лежат и добавить ключ в агент
+//C:\Users\Administrator\.ssh - примерно по такому адресу по дефолту сохраняет, от туда взять публичный ключ и добавить в GitHub
+git push -u origin master
+//////////////////
+в итоге подключение через replit.com
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width initial=scale=1.0">
+    <title>Git Course</title>
+    <style>
+      *{
+       margin: 0;
+        padding:0;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Hello Git</h1>
+  </body>
+  <script src="script.js"></script
+</html>
+    -->
